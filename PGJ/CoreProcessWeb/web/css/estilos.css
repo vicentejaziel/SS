@@ -1,0 +1,76 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 6/05/2014, 07:34:59 PM
+    Author     : pepgonalez
+*/
+body{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10px;
+}
+
+header{
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;  
+    padding: 0.2em;
+    border-radius: 3px;
+}
+figure{
+    width: 100px;
+    margin: 0;
+    padding: 0.2em;
+    float:left;
+}
+
+header h1{
+    text-align: center;
+    margin-top: 1.0em;
+}
+
+.ui-widget{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11px;
+}
+
+.ui-widget-content{
+    border-style: none !important
+}
+
+.ui-panelgrid{
+    padding: 0;
+    border-style: none !important
+}
+.ui-panelgrid td, .ui-panelgrid th{
+    padding: 0.2em 1em;
+    border-style: none !important
+}
+
+.tableColumn{
+    padding: 0.2em 1em;
+    font-family: 'Open Sans', sans-serif;
+    color: #4F4F4F;
+    text-align: right;
+}
+
+.combo{
+    max-width: 150px;
+}
+
+.campoHora{
+    max-width: 40px;
+}
+
+.labelClass{
+    padding: 0px!important;
+    text-align: right!important;
+}
+
+.folioClass{
+    min-width: 50px;
+    background: #AAA;
+}
+

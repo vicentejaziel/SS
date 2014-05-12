@@ -1,0 +1,18 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 6/05/2014, 08:44:29 PM
+    Author     : pepgonalez
+*/
+
+#gridGeneral{
+    border: 1px solid red;
+    margin: 0 auto;
+}
+
+.border{
+    border: 1px solid red;
+}

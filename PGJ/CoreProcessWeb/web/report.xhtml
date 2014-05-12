@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>#{msg['REPORT_TITLE']}</title>
+        <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
+        <link rel="stylesheet" type="text/css" href="css/estilos.css"/>
+        <link rel="stylesheet" type="text/css" href="css/estilos-primefaces.css"/>
+
+    </h:head>
+
+
+    <h:body>
+        <h:form id="reportForm">
+
+            <header>
+                <figure>
+                    <img src="img/logo.png" alt="PGJ"/>
+                </figure>
+                <h1>#{msg['TITLE']}</h1>
+            </header>
+
+            <p:panel id="panelGeneral" header="#{msg['DATOS_GENERALES_TITLE']}">
+                <p:panelGrid id="gridGeneral">
+                    <p:row>
+                        <p:column styleClass="labelClass"><p:outputLabel value="#{msg['FOLIO']}"/></p:column>
+                        <p:column><p:outputLabel styleClass="folioClass" value="#{ReportBean.reportId}"/></p:column>
+                        <p:column styleClass="labelClass"><p:outputLabel value="#{msg['FECHA']}"/></p:column>
+                        <p:column>
+                            <p:calendar value="#{ReportBean.date}"></p:calendar>
+                        </p:column>
+
+                        <p:column styleClass="labelClass"><p:outputLabel value="#{msg['HORA_REPORTE']}"/></p:column>
+                        <p:column>
+                            <p:inputText styleClass="campoHora" value="#{ReportBean.time}" placeholder="HH:SS"/>
+                        </p:column>
+
+                         <p:column styleClass="labelClass"><p:outputLabel value="#{msg['TIPO_LLAMADA']}"/></p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{ReportBean.callType}">
+                                <f:selectItem itemLabel="Seleccione Un Tipo" itemValue="-1" />
+                                <f:selectItems value="#{ReportBean.callTypeList}" var="ctEl" itemLabel="#{ctEl.name}" itemValue="#{ctEl.id}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        
+                        <p:column styleClass="labelClass"><p:outputLabel value="#{msg['HORA_ARRIBO']}"/></p:column>
+                        <p:column>
+                            <p:inputText styleClass="campoHora" value="#{ReportBean.eventTime}" placeholder="HH:SS"/>
+                        </p:column>
+
+
+                        <p:column styleClass="labelClass"><p:outputLabel value="#{msg['GRUPO']}"/></p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{ReportBean.grupo}">
+                                <f:selectItem itemLabel="Seleccione Un Grupo" itemValue="-1" />
+                                <f:selectItems value="#{ReportBean.judgeGroupList}" var="gEl" itemLabel="#{gEl.name}" itemValue="#{gEl.id}"/>
+                                <p:ajax event="change" update="jugdesPanel" listener="#{ReportBean.updateGroup()}"/>
+                            </p:selectOneMenu>
+                        </p:column>
+
+
+                        <p:column styleClass="labelClass"><p:outputLabel value="#{msg['NO_PERITOS']}"/></p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{ReportBean.noJugdes}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="-1" />
+                                <f:selectItems value="#{ReportBean.noJudgesList}" var="noEl" itemLabel="#{noEl}" itemValue="#{noEl}"/>
+                                <p:ajax event="change" update="jugdesPanel" listener="#{ReportBean.updateNoJudges()}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        
+                         <p:column styleClass="labelClass"><p:outputLabel value="#{msg['UNIDAD_TRANS']}"/></p:column>
+                        <p:column>
+                            <p:inputText style="max-width: 50px;" value="#{ReportBean.transportUnit}" placeholder="Unidad"/>
+                        </p:column>
+
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+
+            <h:panelGroup id="jugdesPanel" style="margin: 0 auto;">
+                <h:form rendered="#{(ReportBean.grupo != -1) &amp;&amp; (ReportBean.noJugdes != -1)}">
+                    <table>
+                        <ui:repeat var="j" value="#{ReportBean.listOfJudges}" varStatus="loop">
+                            <td class="tableColumn">
+                                <p:outputLabel value="Perito No. #{loop.index + 1}:"/>
+                            </td>
+                            <td class="tableColumn">
+                                <p:selectOneMenu value="#{j}" styleClass="combo">
+                                    <f:selectItems value="#{ReportBean.judgeList}" var="judgeElement" itemLabel="#{judgeElement.name}" itemValue="#{judgeElement}"/>
+                                </p:selectOneMenu>
+                            </td>
+                        </ui:repeat>
+                    </table>
+                </h:form>
+            </h:panelGroup>
+
+
+            <p:panel header="#{msg['DILIGENCE']}">
+
+                <p:panelGrid>
+
+                    <p:row>
+                        <p:column><p:outputLabel value="#{msg['DEP_INS']}"/></p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{ReportBean.dependence}">
+                                <f:selectItem itemLabel="NA" itemValue="-1" />
+                                <f:selectItem itemLabel="Hospital Universitario" itemValue="1" />
+                                <f:selectItem itemLabel="SEMEFO" itemValue="2" />
+                                <f:selectItem itemLabel="Carcel" itemValue="3" />
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="#{msg['STREET_NO']}"/></p:column>
+                        <p:column>
+                            <p:inputText value="#{ReportBean.streetNo}" placeholder="Calle y Numero"/>
+                        </p:column>
+                        <p:column><p:outputLabel value="#{msg['COLONY']}"/></p:column>
+                        <p:column>
+                            <p:inputText value="#{ReportBean.colony}" placeholder="Colonia"/>
+                        </p:column>
+                        <p:column><p:outputLabel value="#{msg['MUN']}"/></p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{ReportBean.dependence}">
+                                <f:selectItem itemLabel="Seleccione" itemValue="-1" />
+                                <f:selectItem itemLabel="Monterrey" itemValue="1" />
+                                <f:selectItem itemLabel="San Nicolas" itemValue="2" />
+                                <f:selectItem itemLabel="Apodaca" itemValue="3" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column><p:outputLabel value="#{msg['POSTAL_CODE']}"/></p:column>
+                        <p:column>
+                            <p:inputText value="#{ReportBean.postalCode}" placeholder="Codigo Postal"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="#{msg['BETWEEN_ST']}"/></p:column>
+                        <p:column>
+                            <p:inputText value="#{ReportBean.betweenSt}" placeholder="Entre Calles"/>
+                        </p:column>
+                        <p:column><p:outputLabel value="#{msg['LAT']}"/></p:column>
+                        <p:column>
+                            <p:inputText value="#{ReportBean.latitude}" placeholder="Latitud"/>
+                        </p:column>
+                        <p:column><p:outputLabel value="#{msg['LONG']}"/></p:column>
+                        <p:column>
+                            <p:inputText value="#{ReportBean.longitud}" placeholder="Longitud"/>
+                        </p:column>
+                        <p:column><p:outputLabel value="#{msg['CUAD']}"/></p:column>
+                        <p:column>
+                            <p:inputText value="#{ReportBean.cuad}" placeholder="Cuadrante"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+
+    </h:body>
+
+
+
+
+
+</html>
