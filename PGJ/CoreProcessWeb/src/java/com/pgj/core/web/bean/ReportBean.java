@@ -7,8 +7,10 @@ package com.pgj.core.web.bean;
 
 import com.pgj.commons.utils.Constants;
 import com.pgj.core.service.dto.CallTypeDTO;
+import com.pgj.core.service.dto.DependenceDTO;
 import com.pgj.core.service.dto.JudgeDTO;
 import com.pgj.core.service.dto.JudgeGroupDTO;
+import com.pgj.core.service.dto.TownDTO;
 import com.pgj.core.web.facade.ReportBeanFacade;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -22,32 +24,40 @@ import javax.faces.bean.ViewScoped;
  *
  * @author pepgonalez
  */
-@ManagedBean(name = "ReportBean")
-@ViewScoped
+@javax.inject.Named(value = "ReportBean")
+@javax.faces.view.ViewScoped
 public class ReportBean implements Serializable {
 
     private BigDecimal reportId;
     private Date date;
     private String time;
     private String eventTime;
+    private String transportUnit;
     
+    //Tipo de llamada
     private Integer callType;
     private List<CallTypeDTO> callTypeList = new ArrayList<>();
 
+    //GRUPO DE PERITOS SELECCIONADO
     private Integer grupo = 0;
     private List<JudgeGroupDTO> judgeGroupList = new ArrayList<>();
 
+    //NUMERO DE PERITOS
     private Integer noJugdes = 0;
     private List<Integer> noJudgesList = new ArrayList<>();
 
+    //LISTADO DE PERITOS
     private List<JudgeDTO> judgeList = new ArrayList<>();
-
-    private String transportUnit;
-    
-    private Integer dependence;
-    
     private JudgeDTO[] listOfJudges;
+  
     
+    // VALORES DE DILIGENCIA
+    private Integer dependence;
+    private List<DependenceDTO> dependenceList = new ArrayList<>();
+
+    private Integer townId;
+    private List<TownDTO> townList = new ArrayList<>();
+
     private String streetNo;
     private String colony;
     private String postalCode;
@@ -63,46 +73,38 @@ public class ReportBean implements Serializable {
         this.judgeGroupList = facade.findAllJudgeGroup();
         this.callTypeList = facade.getAllCallTypes();
         
+        this.dependenceList = facade.getDependenceList();
+        this.townList = facade.getTownList();
+
         this.noJudgesList = Constants.getNoList();
 
+        this.dependence = 1;
+        
     }
 
-//    public void addJudges() {
-//        System.out.println("Agregar Peritos");
-//        System.out.println("Id de grupo: " + this.grupo);
-//        System.out.println("No de Peritos: " + this.noJugdes);
-//
-//        System.out.println("Elementos en lista de peritos: " + this.judgeList.size());
-//
-//        this.listOfJudges = new JudgeDTO[this.noJugdes];
-//        //RequestContext requestContext = RequestContext.getCurrentInstance();
-//        //requestContext.execute("judgeDial.show()");
-//    }
-    
-    public void updateGroup(){
+    public void updateGroup() {
         System.out.println("metodo update Gruop");
         System.out.println("grupo seleccionado: " + this.grupo);
         System.out.println("grupo seleccionado: " + this.noJugdes);
         System.out.println("Fin de metodo update group");
-        if(this.grupo > 0){
-            for (JudgeGroupDTO element : this.judgeGroupList){
-                if (element.getId().intValue() == this.grupo){
+        if (this.grupo > 0) {
+            for (JudgeGroupDTO element : this.judgeGroupList) {
+                if (element.getId().intValue() == this.grupo) {
                     this.judgeList = element.getJudgeList();
                 }
             }
-        }else{
+        } else {
             this.judgeList = new ArrayList<>();
         }
     }
-    
-    public void updateNoJudges(){
+
+    public void updateNoJudges() {
         System.out.println("metodo update No Judges");
         System.out.println("grupo seleccionado: " + this.grupo);
         System.out.println("grupo seleccionado: " + this.noJugdes);
         System.out.println("Fin de metodo update No judges");
         this.listOfJudges = new JudgeDTO[this.noJugdes];
     }
-    
 
     /**
      * @return the reportId
@@ -396,5 +398,47 @@ public class ReportBean implements Serializable {
      */
     public void setTransportUnit(String transportUnit) {
         this.transportUnit = transportUnit;
+    }
+
+    /**
+     * @return the dependenceList
+     */
+    public List<DependenceDTO> getDependenceList() {
+        return dependenceList;
+    }
+
+    /**
+     * @param dependenceList the dependenceList to set
+     */
+    public void setDependenceList(List<DependenceDTO> dependenceList) {
+        this.dependenceList = dependenceList;
+    }
+
+    /**
+     * @return the townId
+     */
+    public Integer getTownId() {
+        return townId;
+    }
+
+    /**
+     * @param townId the townId to set
+     */
+    public void setTownId(Integer townId) {
+        this.townId = townId;
+    }
+
+    /**
+     * @return the townList
+     */
+    public List<TownDTO> getTownList() {
+        return townList;
+    }
+
+    /**
+     * @param townList the townList to set
+     */
+    public void setTownList(List<TownDTO> townList) {
+        this.townList = townList;
     }
 }

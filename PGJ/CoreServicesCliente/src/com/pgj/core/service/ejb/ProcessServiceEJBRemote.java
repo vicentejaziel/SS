@@ -7,7 +7,9 @@
 package com.pgj.core.service.ejb;
 
 import com.pgj.core.service.dto.CallTypeDTO;
+import com.pgj.core.service.dto.DependenceDTO;
 import com.pgj.core.service.dto.JudgeGroupDTO;
+import com.pgj.core.service.dto.TownDTO;
 import java.util.List;
 
 /**
@@ -19,13 +21,12 @@ public interface ProcessServiceEJBRemote {
     public static final String NAME = "ProcessServiceEJB";
     public static final String MAPPED_NAME = "ProcessServiceEJB#com.pgj.core.service.ejb.ProcessServiceEJBRemote";
  
-    /**
-     * Metodo para obtener el listado de Grupos de Peritos
-     * @return Listado de Grupos de Peritos
-     */
+
     List<JudgeGroupDTO> findAllJudgeGroup();
     
     List<CallTypeDTO> getAllCallTypes();
     
-    //List<JudgeDTO> getJugdesByGroup(Integer group);
+    List<TownDTO> getTownList();
+    
+    List<DependenceDTO> getDependenceList();
 }

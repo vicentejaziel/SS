@@ -6,6 +6,7 @@
 
 package com.pgj.core.service.entity;
 
+import com.pgj.core.service.dto.DependenceDTO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -57,23 +58,15 @@ public class Dependence implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "street_and_no")
     private String streetAndNo;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 50)
     @Column(name = "suburb")
     private String suburb;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "postal_code")
     private String postalCode;
@@ -246,6 +239,26 @@ public class Dependence implements Serializable {
         }
         return true;
     }
+    
+    public DependenceDTO getDTOFromInstance(){
+        DependenceDTO dto = new DependenceDTO();
+        dto.setId(this.id);
+        dto.setName(this.name);
+        dto.setStreetAndNo(this.streetAndNo);
+        dto.setSuburb(this.suburb);
+        if (this.townId != null){
+            dto.setTown(this.townId.getDTOFromInstance());
+        }
+        dto.setPostalCode(this.postalCode);
+        dto.setBetweenSt(this.betweenSt);
+        dto.setLatitude(this.latitude);
+        dto.setLongitude(this.longitude);
+        dto.setCuadrant(this.cuadrant);
+        dto.setStatus(this.status);
+        dto.setLastUpdateDate(this.lastUpdateDate);
+        return dto;
+    }
+    
 
     @Override
     public String toString() {

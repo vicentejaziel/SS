@@ -72,6 +72,11 @@ public class Report implements Serializable {
     private String time;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 5)
+    @Column(name = "event_time")
+    private String eventTime;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "no_judges")
     private int noJudges;
     @Size(max = 30)
@@ -134,6 +139,9 @@ public class Report implements Serializable {
     @JoinColumn(name = "judge_group_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private JudgeGroup judgeGroupId;
+    @JoinColumn(name = "call_type_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private CallTypeEO callTypeId;
 
     public Report() {
     }
@@ -142,10 +150,11 @@ public class Report implements Serializable {
         this.id = id;
     }
 
-    public Report(Integer id, Date date, String time, int noJudges, String isRelevant, String evidenceContent, int secundarySceneNo, String isSuspects, String status, Date lastUpdateDate) {
+    public Report(Integer id, Date date, String time, String eventTime, int noJudges, String isRelevant, String evidenceContent, int secundarySceneNo, String isSuspects, String status, Date lastUpdateDate) {
         this.id = id;
         this.date = date;
         this.time = time;
+        this.eventTime = eventTime;
         this.noJudges = noJudges;
         this.isRelevant = isRelevant;
         this.evidenceContent = evidenceContent;
@@ -177,6 +186,14 @@ public class Report implements Serializable {
 
     public void setTime(String time) {
         this.time = time;
+    }
+    
+    public String getEventTime(){
+        return eventTime;
+    }
+    
+    public void setEventTime(String eventTime){
+        this.eventTime = eventTime;
     }
 
     public int getNoJudges() {

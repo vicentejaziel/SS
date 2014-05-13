@@ -45,14 +45,14 @@ and open the template in the editor.
                             <p:inputText styleClass="campoHora" value="#{ReportBean.time}" placeholder="HH:SS"/>
                         </p:column>
 
-                         <p:column styleClass="labelClass"><p:outputLabel value="#{msg['TIPO_LLAMADA']}"/></p:column>
+                        <p:column styleClass="labelClass"><p:outputLabel value="#{msg['TIPO_LLAMADA']}"/></p:column>
                         <p:column>
                             <p:selectOneMenu value="#{ReportBean.callType}">
                                 <f:selectItem itemLabel="Seleccione Un Tipo" itemValue="-1" />
                                 <f:selectItems value="#{ReportBean.callTypeList}" var="ctEl" itemLabel="#{ctEl.name}" itemValue="#{ctEl.id}"/>
                             </p:selectOneMenu>
                         </p:column>
-                        
+
                         <p:column styleClass="labelClass"><p:outputLabel value="#{msg['HORA_ARRIBO']}"/></p:column>
                         <p:column>
                             <p:inputText styleClass="campoHora" value="#{ReportBean.eventTime}" placeholder="HH:SS"/>
@@ -77,8 +77,8 @@ and open the template in the editor.
                                 <p:ajax event="change" update="jugdesPanel" listener="#{ReportBean.updateNoJudges()}" />
                             </p:selectOneMenu>
                         </p:column>
-                        
-                         <p:column styleClass="labelClass"><p:outputLabel value="#{msg['UNIDAD_TRANS']}"/></p:column>
+
+                        <p:column styleClass="labelClass"><p:outputLabel value="#{msg['UNIDAD_TRANS']}"/></p:column>
                         <p:column>
                             <p:inputText style="max-width: 50px;" value="#{ReportBean.transportUnit}" placeholder="Unidad"/>
                         </p:column>
@@ -105,25 +105,24 @@ and open the template in the editor.
             </h:panelGroup>
 
 
-            <p:panel header="#{msg['DILIGENCE']}">
+            <p:panel id="panelDiligence" header="#{msg['DILIGENCE']}">
 
-                <p:panelGrid>
+                <p:panelGrid id="gridDil">
 
                     <p:row>
                         <p:column><p:outputLabel value="#{msg['DEP_INS']}"/></p:column>
                         <p:column>
                             <p:selectOneMenu value="#{ReportBean.dependence}">
-                                <f:selectItem itemLabel="NA" itemValue="-1" />
-                                <f:selectItem itemLabel="Hospital Universitario" itemValue="1" />
-                                <f:selectItem itemLabel="SEMEFO" itemValue="2" />
-                                <f:selectItem itemLabel="Carcel" itemValue="3" />
+                                <f:selectItems var="dependenceVar" value="#{ReportBean.dependenceList}" itemLabel="#{dependenceVar.name}" itemValue="#{dependenceVar.id}"/>
+                                <p:ajax event="change" update="gridDil"/>
                             </p:selectOneMenu>
                         </p:column>
                     </p:row>
+
                     <p:row>
                         <p:column><p:outputLabel value="#{msg['STREET_NO']}"/></p:column>
                         <p:column>
-                            <p:inputText value="#{ReportBean.streetNo}" placeholder="Calle y Numero"/>
+                            <p:inputText value="#{ReportBean.streetNo}" placeholder="Calle y Numero" disabled="#{ReportBean.dependence != 1}"/>
                         </p:column>
                         <p:column><p:outputLabel value="#{msg['COLONY']}"/></p:column>
                         <p:column>
@@ -131,11 +130,8 @@ and open the template in the editor.
                         </p:column>
                         <p:column><p:outputLabel value="#{msg['MUN']}"/></p:column>
                         <p:column>
-                            <p:selectOneMenu value="#{ReportBean.dependence}">
-                                <f:selectItem itemLabel="Seleccione" itemValue="-1" />
-                                <f:selectItem itemLabel="Monterrey" itemValue="1" />
-                                <f:selectItem itemLabel="San Nicolas" itemValue="2" />
-                                <f:selectItem itemLabel="Apodaca" itemValue="3" />
+                            <p:selectOneMenu value="#{ReportBean.townId}">
+                                <f:selectItems var="townIt" value="#{ReportBean.townList}" itemLabel="#{townIt.name}" itemValue="#{townIt.id}"/>
                             </p:selectOneMenu>
                         </p:column>
                         <p:column><p:outputLabel value="#{msg['POSTAL_CODE']}"/></p:column>
@@ -161,14 +157,10 @@ and open the template in the editor.
                             <p:inputText value="#{ReportBean.cuad}" placeholder="Cuadrante"/>
                         </p:column>
                     </p:row>
+                    
                 </p:panelGrid>
             </p:panel>
         </h:form>
 
     </h:body>
-
-
-
-
-
 </html>

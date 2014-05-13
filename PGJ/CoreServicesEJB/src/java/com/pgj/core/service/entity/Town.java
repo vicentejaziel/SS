@@ -6,6 +6,7 @@
 
 package com.pgj.core.service.entity;
 
+import com.pgj.core.service.dto.TownDTO;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -150,6 +151,15 @@ public class Town implements Serializable {
             return false;
         }
         return true;
+    }
+    
+    public TownDTO getDTOFromInstance(){
+        TownDTO dto = new TownDTO();
+        dto.setId(this.id);
+        dto.setName(this.name);
+        dto.setStatus(this.status);
+        dto.setLastUpdateDate(this.lastUpdateDate);
+        return dto;
     }
 
     @Override

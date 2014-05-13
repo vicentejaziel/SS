@@ -64,11 +64,11 @@ CREATE TABLE PGJ.JUDGE (
 
 CREATE TABLE PGJ.DEPENDENCE (
   id int(10) NOT NULL AUTO_INCREMENT,
-  name varchar(50) NOT NULL,
-  street_and_no varchar(50) NOT NULL,
-  suburb varchar(50) NOT NULL,
-  town_id int(10) NOT NULL,
-  postal_code varchar(10) NOT NULL,
+  name varchar(50),
+  street_and_no varchar(50),
+  suburb varchar(50),
+  town_id int(10),
+  postal_code varchar(10),
   between_st varchar(100),
   latitude varchar(30),
   longitude varchar(30),
@@ -151,6 +151,7 @@ CREATE TABLE PGJ.REPORT (
   call_type_id int(10) NOT NULL,
   judge_group_id int(10) NOT NULL, -- GRUPO PERITOS
   no_judges int(1) NOT NULL,
+  transport_unit varchar(30) NOT NULL,
   diligence_id int(10) NOT NULL, -- ID DILIGENCIA
   crime_id int(10) NOT NULL,     -- ID CRIMEN
   crime_category_id int(10) NOT NULL, -- ID CRIMEN_CATEGORIA

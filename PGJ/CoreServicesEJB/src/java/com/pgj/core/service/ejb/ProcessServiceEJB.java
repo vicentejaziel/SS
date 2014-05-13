@@ -7,9 +7,13 @@
 package com.pgj.core.service.ejb;
 
 import com.pgj.core.service.dto.CallTypeDTO;
+import com.pgj.core.service.dto.DependenceDTO;
 import com.pgj.core.service.dto.JudgeGroupDTO;
+import com.pgj.core.service.dto.TownDTO;
 import com.pgj.core.service.entity.CallTypeEO;
+import com.pgj.core.service.entity.Dependence;
 import com.pgj.core.service.entity.JudgeGroup;
+import com.pgj.core.service.entity.Town;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Remote;
@@ -50,6 +54,28 @@ public class ProcessServiceEJB implements ProcessServiceEJBRemote {
         for(CallTypeEO element : list){
             resList.add(element.getDTOFromInstance());
         }
+        return resList;
+    }
+
+    @Override
+    public List<TownDTO> getTownList() {
+        List<Town> townList = em.createNamedQuery("Town.findAll").getResultList();
+        List<TownDTO> resList = new ArrayList<>();
+        for(Town element : townList){
+            resList.add(element.getDTOFromInstance());
+        }
+        return resList;
+    }
+
+    @Override
+    public List<DependenceDTO> getDependenceList() {
+        List<DependenceDTO> resList = new ArrayList<>();
+        List<Dependence> dependenceList = em.createNamedQuery("Dependence.findAll").getResultList();
+        
+        for (Dependence element : dependenceList){
+            resList.add(element.getDTOFromInstance());
+        }
+        
         return resList;
     }
     

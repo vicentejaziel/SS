@@ -58,6 +58,7 @@ header h1{
 
 .combo{
     max-width: 150px;
+    text-align: left;
 }
 
 .campoHora{
