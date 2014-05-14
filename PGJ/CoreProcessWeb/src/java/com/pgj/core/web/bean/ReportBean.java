@@ -24,16 +24,18 @@ import javax.faces.bean.ViewScoped;
  *
  * @author pepgonalez
  */
-@javax.inject.Named(value = "ReportBean")
-@javax.faces.view.ViewScoped
+@ManagedBean(name = "ReportBean")
+@ViewScoped
 public class ReportBean implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     private BigDecimal reportId;
     private Date date;
     private String time;
     private String eventTime;
     private String transportUnit;
-    
+
     //Tipo de llamada
     private Integer callType;
     private List<CallTypeDTO> callTypeList = new ArrayList<>();
@@ -49,11 +51,10 @@ public class ReportBean implements Serializable {
     //LISTADO DE PERITOS
     private List<JudgeDTO> judgeList = new ArrayList<>();
     private JudgeDTO[] listOfJudges;
-  
-    
+
     // VALORES DE DILIGENCIA
-    private Integer dependence;
     private List<DependenceDTO> dependenceList = new ArrayList<>();
+    private Integer diligenceDep;
 
     private Integer townId;
     private List<TownDTO> townList = new ArrayList<>();
@@ -65,21 +66,37 @@ public class ReportBean implements Serializable {
     private String longitud;
     private String latitude;
     private String cuad;
+    
+    
+    //VALORES DE CRIMEN
+    private Integer crimeId;
+    private Integer crimeCategoryId;
+    private Integer cimeSubCategoryId;
+    
+    private String agency;
+    private String amp;
+    private String idRel;
+    private String avNo;
+    private boolean isRelevant;
+    private boolean isEvidence;
+    private boolean isSuspects;
 
-    ReportBeanFacade facade = new ReportBeanFacade();
+    private final transient ReportBeanFacade facade;
 
     public ReportBean() {
 
+        facade = new ReportBeanFacade();
+
+        //Carga de Catalogos
         this.judgeGroupList = facade.findAllJudgeGroup();
         this.callTypeList = facade.getAllCallTypes();
-        
         this.dependenceList = facade.getDependenceList();
         this.townList = facade.getTownList();
-
         this.noJudgesList = Constants.getNoList();
 
-        this.dependence = 1;
-        
+        //Asignacion de dependencia
+        this.diligenceDep = this.dependenceList.get(0).getId();
+
     }
 
     public void updateGroup() {
@@ -103,7 +120,37 @@ public class ReportBean implements Serializable {
         System.out.println("grupo seleccionado: " + this.grupo);
         System.out.println("grupo seleccionado: " + this.noJugdes);
         System.out.println("Fin de metodo update No judges");
-        this.listOfJudges = new JudgeDTO[this.noJugdes];
+        if (this.noJugdes > 0) {
+            this.listOfJudges = new JudgeDTO[this.noJugdes];
+        }
+    }
+
+    public void updateDiligence() {
+        System.out.println("Metodo update diligence");
+        System.out.println("DiligenceDep: " + this.diligenceDep);
+        DependenceDTO currentDep = null;
+        for (DependenceDTO e : this.dependenceList) {
+            if (this.diligenceDep == e.getId().intValue()) {
+                System.out.println("Dependencia encontrada...");
+                currentDep = e;
+                break;
+            }
+        }
+        if (currentDep != null) {
+            System.out.println("Copiando valores...");
+            this.streetNo = currentDep.getStreetAndNo();
+            this.colony = currentDep.getSuburb();
+            if (currentDep.getTown() != null){
+                this.townId = currentDep.getTown().getId();
+            }else{
+                this.townId = -1;
+            }
+            this.postalCode = currentDep.getPostalCode();
+            this.betweenSt = currentDep.getBetweenSt();
+            this.latitude = currentDep.getLatitude();
+            this.longitud = currentDep.getLongitude();
+            this.cuad = currentDep.getCuadrant();
+        }
     }
 
     /**
@@ -303,20 +350,6 @@ public class ReportBean implements Serializable {
     }
 
     /**
-     * @return the dependence
-     */
-    public Integer getDependence() {
-        return dependence;
-    }
-
-    /**
-     * @param dependence the dependence to set
-     */
-    public void setDependence(Integer dependence) {
-        this.dependence = dependence;
-    }
-
-    /**
      * @return the judgeList
      */
     public List<JudgeDTO> getJudgeList() {
@@ -440,5 +473,159 @@ public class ReportBean implements Serializable {
      */
     public void setTownList(List<TownDTO> townList) {
         this.townList = townList;
+    }
+
+    /**
+     * @return the diligenceDep
+     */
+    public Integer getDiligenceDep() {
+        return diligenceDep;
+    }
+
+    /**
+     * @param diligenceDep the diligenceDep to set
+     */
+    public void setDiligenceDep(Integer diligenceDep) {
+        this.diligenceDep = diligenceDep;
+    }
+
+    /**
+     * @return the crimeId
+     */
+    public Integer getCrimeId() {
+        return crimeId;
+    }
+
+    /**
+     * @param crimeId the crimeId to set
+     */
+    public void setCrimeId(Integer crimeId) {
+        this.crimeId = crimeId;
+    }
+
+    /**
+     * @return the crimeCategoryId
+     */
+    public Integer getCrimeCategoryId() {
+        return crimeCategoryId;
+    }
+
+    /**
+     * @param crimeCategoryId the crimeCategoryId to set
+     */
+    public void setCrimeCategoryId(Integer crimeCategoryId) {
+        this.crimeCategoryId = crimeCategoryId;
+    }
+
+    /**
+     * @return the cimeSubCategoryId
+     */
+    public Integer getCimeSubCategoryId() {
+        return cimeSubCategoryId;
+    }
+
+    /**
+     * @param cimeSubCategoryId the cimeSubCategoryId to set
+     */
+    public void setCimeSubCategoryId(Integer cimeSubCategoryId) {
+        this.cimeSubCategoryId = cimeSubCategoryId;
+    }
+
+    /**
+     * @return the agency
+     */
+    public String getAgency() {
+        return agency;
+    }
+
+    /**
+     * @param agency the agency to set
+     */
+    public void setAgency(String agency) {
+        this.agency = agency;
+    }
+
+    /**
+     * @return the amp
+     */
+    public String getAmp() {
+        return amp;
+    }
+
+    /**
+     * @param amp the amp to set
+     */
+    public void setAmp(String amp) {
+        this.amp = amp;
+    }
+
+    /**
+     * @return the idRel
+     */
+    public String getIdRel() {
+        return idRel;
+    }
+
+    /**
+     * @param idRel the idRel to set
+     */
+    public void setIdRel(String idRel) {
+        this.idRel = idRel;
+    }
+
+    /**
+     * @return the avNo
+     */
+    public String getAvNo() {
+        return avNo;
+    }
+
+    /**
+     * @param avNo the avNo to set
+     */
+    public void setAvNo(String avNo) {
+        this.avNo = avNo;
+    }
+
+    /**
+     * @return the isRelevant
+     */
+    public boolean isIsRelevant() {
+        return isRelevant;
+    }
+
+    /**
+     * @param isRelevant the isRelevant to set
+     */
+    public void setIsRelevant(boolean isRelevant) {
+        this.isRelevant = isRelevant;
+    }
+
+    /**
+     * @return the isEvidence
+     */
+    public boolean isIsEvidence() {
+        return isEvidence;
+    }
+
+    /**
+     * @param isEvidence the isEvidence to set
+     */
+    public void setIsEvidence(boolean isEvidence) {
+        this.isEvidence = isEvidence;
+    }
+
+    /**
+     * @return the isSuspects
+     */
+    public boolean isIsSuspects() {
+        return isSuspects;
+    }
+
+    /**
+     * @param isSuspects the isSuspects to set
+     */
+    public void setIsSuspects(boolean isSuspects) {
+        this.isSuspects = isSuspects;
     }
 }

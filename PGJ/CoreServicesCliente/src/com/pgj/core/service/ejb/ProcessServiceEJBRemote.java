@@ -9,6 +9,7 @@ package com.pgj.core.service.ejb;
 import com.pgj.core.service.dto.CallTypeDTO;
 import com.pgj.core.service.dto.DependenceDTO;
 import com.pgj.core.service.dto.JudgeGroupDTO;
+import com.pgj.core.service.dto.LabDTO;
 import com.pgj.core.service.dto.TownDTO;
 import java.util.List;
 
@@ -29,4 +30,6 @@ public interface ProcessServiceEJBRemote {
     List<TownDTO> getTownList();
     
     List<DependenceDTO> getDependenceList();
+    
+    List<LabDTO> getLabList();
 }

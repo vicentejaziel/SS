@@ -8,6 +8,7 @@ package com.pgj.core.web.facade;
 import com.pgj.core.service.dto.CallTypeDTO;
 import com.pgj.core.service.dto.DependenceDTO;
 import com.pgj.core.service.dto.JudgeGroupDTO;
+import com.pgj.core.service.dto.LabDTO;
 import com.pgj.core.service.dto.TownDTO;
 import com.pgj.core.service.ejb.ProcessServiceEJBRemote;
 import java.util.List;
@@ -55,6 +56,11 @@ public class ReportBeanFacade implements ProcessServiceEJBRemote {
     @Override
     public List<DependenceDTO> getDependenceList() {
         return this.processEJB.getDependenceList();
+    }
+
+    @Override
+    public List<LabDTO> getLabList() {
+        return this.processEJB.getLabList();
     }
 
 }

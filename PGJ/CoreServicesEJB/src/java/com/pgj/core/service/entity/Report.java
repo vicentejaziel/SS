@@ -54,6 +54,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Report.findByStatus", query = "SELECT r FROM Report r WHERE r.status = :status"),
     @NamedQuery(name = "Report.findByLastUpdateDate", query = "SELECT r FROM Report r WHERE r.lastUpdateDate = :lastUpdateDate")})
 public class Report implements Serializable {
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 30)
+    @Column(name = "transport_unit")
+    private String transportUnit;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "reportId")
+    private List<Evidence> evidenceList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -365,6 +372,23 @@ public class Report implements Serializable {
     @Override
     public String toString() {
         return "com.pgj.core.service.entity.Report[ id=" + id + " ]";
+    }
+
+    public String getTransportUnit() {
+        return transportUnit;
+    }
+
+    public void setTransportUnit(String transportUnit) {
+        this.transportUnit = transportUnit;
+    }
+
+    @XmlTransient
+    public List<Evidence> getEvidenceList() {
+        return evidenceList;
+    }
+
+    public void setEvidenceList(List<Evidence> evidenceList) {
+        this.evidenceList = evidenceList;
     }
     
 }

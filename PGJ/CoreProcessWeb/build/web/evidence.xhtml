@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>#{msg['REPORT_TITLE']}</title>
+        <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
+        <link rel="stylesheet" type="text/css" href="css/estilos.css"/>
+    </h:head>
+    <h:body>
+        <h:form id="reportForm">
+
+            <p:dataTable id="indiciosTable" var="indicio" value="#{EvBean.list}" style="width: 50%">
+                <p:column headerText="Captura de Indicio">
+
+                    <p:panelGrid id="gridIndicios">
+                        <p:row >
+                            <p:column style="background: none">
+                                <p:outputLabel value="Laboratorio:"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectOneMenu value="#{indicio.lab}" styleClass="comboLab">
+                                    <f:selectItems value="#{EvBean.labList}" var="labElement" itemLabel="#{labElement.name}" itemValue="#{labElement}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Name:"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <p:inputText value="#{indicio.name}"/>
+                            </p:column>
+                            <p:column>
+                                <p:outputLabel value="Indicio Procesado?"/>
+                            </p:column>
+                            <p:column>
+                                <p:selectBooleanCheckbox value="#{indicio.isProc}">
+                                </p:selectBooleanCheckbox>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </p:column>
+            </p:dataTable>
+
+
+            <p:commandButton value="Agregar" actionListener="#{EvBean.addEvidence()}" update="indiciosTable" immediate="true"/>
+        </h:form>
+        <p:ajaxStatus> 
+            <f:facet name="start">
+                <h:graphicImage value="Cargando..." />
+            </f:facet>
+            <f:facet name="complete"> 
+                <h:outputText value=""/>
+            </f:facet> 
+        </p:ajaxStatus>
+    </h:body>
+</html>

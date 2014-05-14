@@ -46,6 +46,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "JudgeGroup.findByStatus", query = "SELECT j FROM JudgeGroup j WHERE j.status = :status"),
     @NamedQuery(name = "JudgeGroup.findByLastUpdateDate", query = "SELECT j FROM JudgeGroup j WHERE j.lastUpdateDate = :lastUpdateDate")})
 public class JudgeGroup implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "judgeGroupId")
+    private List<Report> reportList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -178,6 +180,15 @@ public class JudgeGroup implements Serializable {
     @Override
     public String toString() {
         return "com.pgj.core.service.entity.JudgeGroup[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Report> getReportList() {
+        return reportList;
+    }
+
+    public void setReportList(List<Report> reportList) {
+        this.reportList = reportList;
     }
 
 }

@@ -43,6 +43,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Crime.findByLastUpdateDate", query = "SELECT c FROM Crime c WHERE c.lastUpdateDate = :lastUpdateDate")})
 
 public class Crime implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "crimeId")
+    private List<Report> reportList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -145,6 +147,15 @@ public class Crime implements Serializable {
     @Override
     public String toString() {
         return "com.pgj.core.service.entity.Crime[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Report> getReportList() {
+        return reportList;
+    }
+
+    public void setReportList(List<Report> reportList) {
+        this.reportList = reportList;
     }
     
 }

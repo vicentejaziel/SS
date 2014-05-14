@@ -9,10 +9,12 @@ package com.pgj.core.service.ejb;
 import com.pgj.core.service.dto.CallTypeDTO;
 import com.pgj.core.service.dto.DependenceDTO;
 import com.pgj.core.service.dto.JudgeGroupDTO;
+import com.pgj.core.service.dto.LabDTO;
 import com.pgj.core.service.dto.TownDTO;
 import com.pgj.core.service.entity.CallTypeEO;
 import com.pgj.core.service.entity.Dependence;
 import com.pgj.core.service.entity.JudgeGroup;
+import com.pgj.core.service.entity.Lab;
 import com.pgj.core.service.entity.Town;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +78,16 @@ public class ProcessServiceEJB implements ProcessServiceEJBRemote {
             resList.add(element.getDTOFromInstance());
         }
         
+        return resList;
+    }
+
+    @Override
+    public List<LabDTO> getLabList() {
+        List<LabDTO> resList = new ArrayList<>();
+        List<Lab> labList = em.createNamedQuery("Lab.findAll").getResultList();
+        for (Lab element : labList){
+            resList.add(element.getDTOFromInstance());
+        }
         return resList;
     }
     

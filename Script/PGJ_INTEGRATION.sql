@@ -212,3 +212,24 @@ CREATE TABLE PGJ.REPORT_SCENES (
   CONSTRAINT REPORT_SCENES_REPORT FOREIGN KEY (report_id) REFERENCES PGJ.REPORT(id)
 ) DEFAULT CHARSET=utf8;
 
+CREATE TABLE PGJ.EVIDENCE (
+  id int(10) NOT NULL AUTO_INCREMENT,
+  report_id int(10) NOT NULL,
+  lab_id int(10) NOT NULL,
+  name varchar(50) NOT NULL,
+  description varchar(500) NOT NULL,
+  creation_date int(10) NOT NULL,
+  is_procesed varchar(1) NOT NULL DEFAULT "N",
+  result varchar(500),
+  status varchar(1) NOT NULL DEFAULT "A",
+  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  
+  PRIMARY KEY (id),
+  
+  KEY EVIDENCE_REPORT_ID_KEY (report_id),
+  KEY EVIDENCE_LAB_ID_KEY (lab_id),
+  
+  CONSTRAINT EVIDENCE_REPORT FOREIGN KEY (report_id) REFERENCES PGJ.REPORT(id),
+  CONSTRAINT EVIDENCE_LAB FOREIGN KEY (lab_id) REFERENCES PGJ.LAB(id)
+) DEFAULT CHARSET=utf8;
+

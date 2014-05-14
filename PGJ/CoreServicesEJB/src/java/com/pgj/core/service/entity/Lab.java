@@ -6,9 +6,12 @@
 
 package com.pgj.core.service.entity;
 
+import com.pgj.core.service.dto.LabDTO;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,12 +19,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,6 +44,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Lab.findByStatus", query = "SELECT l FROM Lab l WHERE l.status = :status"),
     @NamedQuery(name = "Lab.findByLastUpdateDate", query = "SELECT l FROM Lab l WHERE l.lastUpdateDate = :lastUpdateDate")})
 public class Lab implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "labId")
+    private List<Evidence> evidenceList;
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -158,6 +165,28 @@ public class Lab implements Serializable {
     @Override
     public String toString() {
         return "com.pgj.core.service.entity.Lab[ id=" + id + " ]";
+    }
+    
+    
+    public LabDTO getDTOFromInstance(){
+        LabDTO dto = new LabDTO();
+        dto.setId(this.id);
+        dto.setName(this.name);
+        dto.setDescription(this.description);
+        dto.setLabType(this.labType);
+        dto.setStatus(this.status);
+        dto.setLastUpdateDate(this.lastUpdateDate);
+        return dto;
+    }
+    
+
+    @XmlTransient
+    public List<Evidence> getEvidenceList() {
+        return evidenceList;
+    }
+
+    public void setEvidenceList(List<Evidence> evidenceList) {
+        this.evidenceList = evidenceList;
     }
     
 }
