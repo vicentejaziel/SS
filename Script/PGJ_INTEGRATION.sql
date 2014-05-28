@@ -6,68 +6,68 @@ DROP DATABASE IF EXISTS PGJ;
 CREATE DATABASE PGJ;
 
 CREATE TABLE PGJ.CRIME(
-  id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  name varchar(50) NOT NULL,
-  status varchar(1) NOT NULL DEFAULT "A",
-  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)DEFAULT CHARSET=utf8;
+  id int(10) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT "Identificador único del Registro.",
+  name varchar(50) NOT NULL COMMENT "Nombre del tipo de delito.",
+  status varchar(1) NOT NULL DEFAULT "A" COMMENT "Estatus del Registro. A - Activo / I - Inactivo.",
+  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT "Última Fecha de actualización del registro."
+)DEFAULT CHARSET=utf8 COMMENT "Tabla de catálogo de Delitos";
 
 CREATE TABLE PGJ.CRIME_CATEGORY (
-  id int(10) NOT NULL AUTO_INCREMENT,
-  crime_id int(10) NOT NULL,
-  name varchar(50) NOT NULL,
-  status varchar(1) NOT NULL DEFAULT "A",
-  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id int(10) NOT NULL AUTO_INCREMENT COMMENT "Identificador único del Registro.",
+  crime_id int(10) NOT NULL COMMENT "Llave Foranea. Tabla PGJ.CRIME. Tipo de Delito al que pertenece la categoría.",
+  name varchar(50) NOT NULL COMMENT "Nombre de la Categoría.",
+  status varchar(1) NOT NULL DEFAULT "A" COMMENT "Estatus del Registro. A - Activo / I - Inactivo.",
+  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT "Última Fecha de actualización del registro.",
   PRIMARY KEY (id),
   KEY CRIME_ID_KEY (crime_id),
   CONSTRAINT CRIME_CATEGORY_CRIME FOREIGN KEY (crime_id) REFERENCES PGJ.CRIME (id)
-) DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8 COMMENT "Tabla de catálogo de Categorías por tipo de Delito.";
 
 CREATE TABLE PGJ.CRIME_SUBCATEGORY (
-  id int(10) NOT NULL AUTO_INCREMENT,
-  crime_category_id int(10) NOT NULL,
-  name varchar(50) NOT NULL,
-  status varchar(1) NOT NULL DEFAULT "A",
-  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id int(10) NOT NULL AUTO_INCREMENT COMMENT "Identificador único del Registro.",
+  crime_category_id int(10) NOT NULL COMMENT "Llave Foranea. Tabla PGJ.CRIME_CATEGORY. Sub Categoría correspondiente a categoría de Delito.",
+  name varchar(50) NOT NULL COMMENT "Nombre de la Sub Categoría.",
+  status varchar(1) NOT NULL DEFAULT "A"  ,
+  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT "Última Fecha de actualización del registro.",
   PRIMARY KEY (id),
   KEY CRIME_CATEGORY_ID_KEY (crime_category_id),
   CONSTRAINT CRIME_SUBCAT_CRIME_CAT FOREIGN KEY (crime_category_id) REFERENCES PGJ.CRIME_SUBCATEGORY (id)
-) DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8 COMMENT "Tabla de catálogo de Sub Categorías por Categoría de Tipo de Delito";
 
 CREATE TABLE PGJ.TOWN (
-  id int(10) NOT NULL AUTO_INCREMENT,
-  name varchar(50) NOT NULL,
-  status varchar(1) NOT NULL DEFAULT "A",
-  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id int(10) NOT NULL AUTO_INCREMENT COMMENT "Identificador único del Registro.",
+  name varchar(50) NOT NULL COMMENT "Nombre del Municipio.",
+  status varchar(1) NOT NULL DEFAULT "A" COMMENT "Estatus del Registro. A - Activo / I - Inactivo.",
+  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT "Última Fecha de actualización del registro.",
   PRIMARY KEY (id)
-) DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8 COMMENT "Tabla de listado de Municipios del Estado de Nuevo León.";
 
 CREATE TABLE PGJ.JUDGE_GROUP (
-  id int(10) NOT NULL AUTO_INCREMENT,
-  name varchar(50) NOT NULL,
-  description varchar(250),
-  status varchar(1) NOT NULL DEFAULT "A",
-  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id int(10) NOT NULL AUTO_INCREMENT COMMENT "Identificador único del Registro.",
+  name varchar(50) NOT NULL COMMENT "Nombre del Grupo de Peritos.",
+  description varchar(250) COMMENT "Descripción del Grupo de Peritos.",
+  status varchar(1) NOT NULL DEFAULT "A" COMMENT "Estatus del Registro. A - Activo / I - Inactivo.",
+  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT "Última Fecha de actualización del registro.",
   PRIMARY KEY (id)
-) DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8 COMMENT "Tabla de Catálogos de Grupos de Peritos.";
 
 CREATE TABLE PGJ.JUDGE (
-  id int(10) NOT NULL AUTO_INCREMENT,
-  judge_group_id int(10) NOT NULL,
-  name varchar(50) NOT NULL,
-  status varchar(1) NOT NULL DEFAULT "A",
-  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  id int(10) NOT NULL AUTO_INCREMENT COMMENT "Identificador único del Registro.",
+  judge_group_id int(10) NOT NULL COMMENT "Llave Foranea. Tabla PGJ.JUDGE_GROUP. Identificador del Grupo al que pertenece el Perito.",
+  name varchar(50) NOT NULL COMMENT "Nombre del Perito",
+  status varchar(1) NOT NULL DEFAULT "A" COMMENT "Estatus del Registro. A - Activo / I - Inactivo.",
+  last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT "Última Fecha de actualización del registro.",
   PRIMARY KEY (id),
   KEY JUDGE_GROUP_ID_KEY (judge_group_id),
   CONSTRAINT JUDGE_GROUP_JUDGE FOREIGN KEY (judge_group_id) REFERENCES PGJ.JUDGE_GROUP(id)
-) DEFAULT CHARSET=utf8;
+) DEFAULT CHARSET=utf8 COMMENT "Tabla de Catálogos de Peritos.";
 
 CREATE TABLE PGJ.DEPENDENCE (
-  id int(10) NOT NULL AUTO_INCREMENT,
-  name varchar(50),
-  street_and_no varchar(50),
-  suburb varchar(50),
-  town_id int(10),
+  id int(10) NOT NULL AUTO_INCREMENT COMMENT "Identificador único del Registro.",
+  name varchar(50) COMMENT "Nombre de la dependencia o nosocomio.",
+  street_and_no varchar(50) COMMENT "Calle y Número donde se encuentra ubicada la dependencia",
+  suburb varchar(50) COMMENT "Colonia donde se encuentra ubicada la dependencia",
+  town_id int(10) COMMENT "Llave Foranea. Tabla PGJ.TOWN. Identificador del Grupo al que pertenece el Perito.",
   postal_code varchar(10),
   between_st varchar(100),
   latitude varchar(30),

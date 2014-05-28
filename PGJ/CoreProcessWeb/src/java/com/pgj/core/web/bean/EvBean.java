@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 @ViewScoped
 public class EvBean implements Serializable {
 
-    private static final Log logger = LogFactory.getLog(EvBean.class.getName());
+    private static final Log logger = LogFactory.getLog(EvBean.class);
     
     private static final long serialVersionUID = 1L;
     
@@ -52,6 +52,7 @@ public class EvBean implements Serializable {
     
     
     public void addEvidence(){
+        logger.info("Agregando Registro...");
 //        List<EvidenceDTO> evList = new ArrayList<>();
 //        evList.addAll(Arrays.asList(evidenceList));
 //        evList.add(new EvidenceDTO());
